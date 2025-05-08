@@ -1,4 +1,5 @@
 import Book from "./Book";
+import AddBook from "./AddBook";
 import "./App.css";
 import React, { useEffect, useState } from "react";
 import { call } from "./service/ApiService";
@@ -31,10 +32,14 @@ function App() {
   );
 
   return (
-    //책 객체가 table 형태로 있어야 함
     <div className="App">
+      {/**현재 제품 리스트를 보여주는 UI */}
       <h1>Book item table</h1>
       <div className="BookList">{bookItems}</div>
+
+      {/**제품 추가 */}
+      <h1>Book add</h1>
+      <AddBook />
     </div>
   );
 }
