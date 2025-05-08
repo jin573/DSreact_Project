@@ -11,6 +11,10 @@ function App() {
     call("/book", "GET", null).then((response) => setItems(response.data));
   }, []);
 
+  const addItem = (item) => {
+    call("/book", "POST", item).then((response) => setItems(response.data));
+  };
+
   //책 객체가 있어야 함
   let bookItems = items.length > 0 && (
     <table>
@@ -39,7 +43,7 @@ function App() {
 
       {/**제품 추가 */}
       <h1>Book add</h1>
-      <AddBook />
+      <AddBook addItem={addItem} />
     </div>
   );
 }
