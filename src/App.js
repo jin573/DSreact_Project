@@ -1,23 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import Book from "./Book";
+import "./App.css";
+import React, { useEffect, useState } from "react";
+import { call } from "./service/ApiService";
 
 function App() {
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    call("/book", "GET", null).then((response) => setItems(response.data));
+  }, []);
+
+  //책 객체가 있어야 함
+  let bookItems = items.length > 0 && (
+    <table>
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>title</th>
+          <th>author</th>
+          <th>publisher</th>
+          <th>userId</th>
+        </tr>
+      </thead>
+      <tbody>
+        {items.map((item) => (
+          <Book item={item} />
+        ))}
+      </tbody>
+    </table>
+  );
+
   return (
+    //책 객체가 table 형태로 있어야 함
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Book item table</h1>
+      <div className="BookList">{bookItems}</div>
     </div>
   );
 }
