@@ -2,6 +2,7 @@ import Book from "./Book";
 import AddBook from "./AddBook";
 import GetBook from './GetBook';
 import UpdateBook from './UpdateBook';
+import DeleteBook from './DeleteBook';
 import "./App.css";
 import React, { useEffect, useState } from "react";
 import { call } from "./service/ApiService";
@@ -20,7 +21,7 @@ function App() {
     call("/book", "POST", item).then((response) => setBookList(response.data));
   };
 
-  const callGetItem = (item) => {
+  const callGetItem = (item) => {    
     const params = new URLSearchParams({
       title: item.title
     }).toString();
@@ -32,11 +33,30 @@ function App() {
       title: item.title
     }).toString();
     call(`/book/search?${params}`, "GET").then((response) =>{console.log(response.data); setUpdateToGetItem(response.data)});
-  }
+  };
 
   const callUpdateItem = (item) => {
     call("/book", "PUT", item).then((response) =>{setUpdateBookItem(response.data)});
     call("/book", "GET", null).then((response) => setBookList(response.data));
+  };
+
+  const callDeleteItem = async (item) => {
+    console.log("삭제 함수 실행", item.title);
+    // title 검색
+    const params = new URLSearchParams({
+      title: item.title
+    }).toString();
+    const url = await call(`/book/search?${params}`, "GET");
+    const deleteitem= url.data;
+
+    //item이 있는 경우 삭제
+    if(deleteitem.length > 0){
+      await call("/book", "DELETE", deleteitem[0]);
+      //리스트 갱신
+      await call("/book", "GET", null).then((response) => setBookList(response.data));
+    }else{
+      console.log("삭제 오류");
+    }
   };
 
   //테이블에 보여줄 책 객체가 있어야 함
@@ -82,6 +102,11 @@ function App() {
         {/**제품 수정 */}
       <h1>Book update</h1>
         <UpdateBook updateToGetItem={callUpdateToGetItem} searchResults={updateToGetbookItem} searchItem={callUpdateItem} updateItem={updateItem}/>
+
+        {/**제품 삭제 */}
+      <h1>Book delete</h1>
+        <DeleteBook deleteItem={callDeleteItem}/>
+    
     </div>
   );
 }

@@ -8,6 +8,7 @@ const [inputItem, setInputItem] = useState({title: "", author: "", publisher: ""
     const updateItem = props.searchItem;
 
     useEffect(() => {
+        console.log(1);
         if (result) {
             setInputItem((prev) => ({
                 ...prev,
