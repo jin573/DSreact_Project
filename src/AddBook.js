@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import { Box, Stack, TextField, Button } from "@mui/material";
 
 const AddBook = (props) => {
-    const [inputItem, setItem] = useState({title: "", author: "", publisher: "", userId: "" });
+    const [inputItem, setInputItem] = useState({title: "", author: "", publisher: "", userId: "" });
     const addItem = props.addItem; // props로 addItem 가져옴
 
     const onButtonClick = () => {
         addItem(inputItem);
-        setItem({title: "", author: "", publisher: "", userId: ""});
+        setInputItem({title: "", author: "", publisher: "", userId: ""});
     }
 
     const onInputChange = (e) => {
         const {name, value} = e.target;
-        setItem((prevState) => ({
+        setInputItem((prevState) => ({
             ...prevState,
             [name]: value
         }));

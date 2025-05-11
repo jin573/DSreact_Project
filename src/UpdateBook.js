@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Box, Stack, TextField, Button } from "@mui/material";
 
 const UpdateBook = (props) => {
-const [inputItem, getItems] = useState({title: "", author: "", publisher: "", userId: "" }); //초기값
-    const searchItem = props.getBookbyUpdate; //부모에 정의되어있는 searchItems 함수
+const [inputItem, setInputItem] = useState({title: "", author: "", publisher: "", userId: "" }); //초기값
+    const searchItem = props.updateToGetItem; //부모에 정의되어있는 searchItems 함수
     const result = props.searchResults;
-    const updateItem = props.updateItem;
+    const updateItem = props.searchItem;
 
     useEffect(() => {
         if (result) {
-            getItems((prev) => ({
+            setInputItem((prev) => ({
                 ...prev,
                 id: result.id,
                 title: result.title || "",
@@ -34,7 +34,7 @@ const [inputItem, getItems] = useState({title: "", author: "", publisher: "", us
     //title 검색 시
     const onInputChange = (e) => {
         const { name, value } = e.target;
-        getItems((prev) => ({
+        setInputItem((prev) => ({
         ...prev,
         [name]: value
     }));

@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Box, Stack, TextField, Button } from "@mui/material";
 
 const GetBook = (props) => {
-    const [inputItem, getItems] = useState({title: "", author: "", publisher: "", userId: "" }); //초기값
+    const [inputItem, setInputItem] = useState({title: "", author: "", publisher: "", userId: "" }); //초기값
     const searchItem = props.searchItem; //부모에 정의되어있는 searchItems 함수
     const result = props.searchResults;
 
     useEffect(() => {
         if (result) {
-            getItems((prev) => ({
+            setInputItem((prev) => ({
                 ...prev,
                 author: result.author || "",
                 publisher: result.publisher || "",
@@ -25,7 +25,7 @@ const GetBook = (props) => {
 
     //title 검색 시
     const onInputChange = (e) => {
-        getItems({title: e.target.value});//입력된 값을 저장
+        setInputItem({title: e.target.value});//입력된 값을 저장
         console.log(inputItem);
     };
 
